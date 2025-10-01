@@ -14,6 +14,7 @@ const Header = () => {
     { label: 'Home', path: '/home-page', icon: 'Home' },
     { label: 'Browse Auctions', path: '/auction-listings', icon: 'Search' },
     { label: 'Create Auction', path: '/create-auction', icon: 'Plus' },
+    { label: 'Plans', path: '/subscription-plans', icon: 'CreditCard' },
   ];
 
   const accountItems = [

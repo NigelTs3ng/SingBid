@@ -9,6 +9,7 @@ import AuctionDetails from './pages/auction-details';
 import SubscriptionManagement from './pages/subscription-management';
 import AuctionListings from './pages/auction-listings';
 import HomePage from './pages/home-page';
+import SubscriptionPlans from './pages/subscription-plans';
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route path="/create-auction" element={<CreateAuction />} />
         <Route path="/auction-details" element={<AuctionDetails />} />
         <Route path="/subscription-management" element={<SubscriptionManagement />} />
+        <Route path="/subscription-plans" element={<SubscriptionPlans />} />
         <Route path="/auction-listings" element={<AuctionListings />} />
         <Route path="/home-page" element={<HomePage />} />
         <Route path="*" element={<NotFound />} />

@@ -66,20 +66,27 @@ const AuctionCard = ({ auction }) => {
       onClick={handleCardClick}
     >
       {/* Image Container */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-40 sm:h-48 overflow-hidden">
         <Image
           src={auction?.image}
           alt={auction?.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
-        {/* Overlay Badges */}
-        <div className="absolute top-3 left-3 flex flex-col space-y-2">
-          {auction?.featured && (
-            <div className="px-2 py-1 bg-primary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-              Featured
-            </div>
-          )}
+        {/* Watch Button - Moved to top right with improved contrast */}
+        <button
+          onClick={handleWatchClick}
+          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+            isWatching 
+              ? 'bg-error/90 text-white shadow-lg'
+              : 'bg-black/50 backdrop-blur-sm text-white hover:bg-black/70'
+          }`}
+        >
+          <Icon name="Heart" size={16} className={isWatching ? 'fill-current' : ''} />
+        </button>
+
+        {/* Category Badge - Moved to top left */}
+        <div className="absolute top-3 left-3">
           {auction?.category && (
             <div className="px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-xs rounded-full">
               {auction?.category}
@@ -87,91 +94,77 @@ const AuctionCard = ({ auction }) => {
           )}
         </div>
 
-        {/* Watch Button */}
-        <button
-          onClick={handleWatchClick}
-          className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-            isWatching 
-              ? 'bg-error text-white' :'bg-white/80 backdrop-blur-sm text-muted-foreground hover:bg-white hover:text-error'
-          }`}
-        >
-          <Icon name="Heart" size={16} className={isWatching ? 'fill-current' : ''} />
-        </button>
-
-        {/* Time Remaining Overlay */}
-        <div className="absolute bottom-3 left-3 right-3">
-          <div className="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2">
+        {/* Time Remaining - Improved mobile layout */}
+        <div className="absolute bottom-3 left-3 right-12">
+          <div className="bg-black/70 backdrop-blur-sm rounded-lg px-2.5 py-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-1">
-                <Icon name="Clock" size={14} className="text-white" />
-                <span className="text-white text-sm font-medium">
+                <Icon name="Clock" size={12} className="text-white" />
+                <span className="text-white text-xs font-medium">
                   {formatTime(timeLeft?.hours)}:{formatTime(timeLeft?.minutes)}:{formatTime(timeLeft?.seconds)}
                 </span>
               </div>
-              <div className={`text-xs font-medium ${getTimeColor()}`}>
-                {timeLeft?.hours === 0 && timeLeft?.minutes < 60 ? 'Ending Soon!' : 'Time Left'}
-              </div>
+              <span className={`text-xs font-medium ${getTimeColor()}`}>
+                {timeLeft?.hours === 0 && timeLeft?.minutes < 60 ? 'Ending Soon!' : ''}
+              </span>
             </div>
           </div>
         </div>
       </div>
-      {/* Content */}
-      <div className="p-4">
-        {/* Title */}
-        <h3 className="font-semibold text-foreground text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-200">
+
+      {/* Content Section - Improved spacing and mobile layout */}
+      <div className="p-3 sm:p-4">
+        <h3 className="font-semibold text-foreground text-base sm:text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-200">
           {auction?.title}
         </h3>
 
-        {/* Seller Info */}
-        <div className="flex items-center space-x-2 mb-3">
-          <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
-            <Icon name="User" size={12} color="white" />
+        {/* Seller Info - Compact layout */}
+        <div className="flex items-center space-x-2 mb-2">
+          <div className="w-5 h-5 bg-secondary rounded-full flex items-center justify-center">
+            <Icon name="User" size={10} color="white" />
           </div>
-          <span className="text-sm text-muted-foreground">{auction?.seller?.name}</span>
+          <span className="text-xs text-muted-foreground">{auction?.seller?.name}</span>
           {auction?.seller?.verified && (
-            <div className="flex items-center space-x-1">
-              <Icon name="Shield" size={12} className="text-success" />
-              <span className="text-xs text-success font-medium">Verified</span>
-            </div>
+            <Icon name="BadgeCheck" size={12} className="text-primary" />
           )}
           <div className="flex items-center space-x-1">
-            <Icon name="Star" size={12} className="text-yellow-400" />
+            <Icon name="Star" size={10} className="text-yellow-400" />
             <span className="text-xs text-muted-foreground">{auction?.seller?.rating}</span>
           </div>
         </div>
 
-        {/* Bid Information */}
-        <div className="space-y-3 mb-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-sm text-muted-foreground">Current Bid</div>
-              <div className="text-xl font-bold text-foreground">
-                S${auction?.currentBid?.toLocaleString()}
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm text-muted-foreground">Total Bids</div>
-              <div className="text-lg font-semibold text-primary">
-                {auction?.totalBids}
-              </div>
+        {/* Bid Information - Improved mobile layout */}
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <div className="text-xs text-muted-foreground">Current Bid</div>
+            <div className="text-lg sm:text-xl font-bold text-foreground">
+              S${auction?.currentBid?.toLocaleString()}
             </div>
           </div>
+          <div className="text-right">
+            <div className="text-xs text-muted-foreground">Total Bids</div>
+            <div className="text-base sm:text-lg font-semibold text-primary">
+              {auction?.totalBids}
+            </div>
+          </div>
+        </div>
 
-          {/* Reserve Price Indicator */}
+        {/* Reserve Price Indicator - Compact design */}
+        <div className="mb-3">
           {auction?.currentBid >= auction?.reservePrice ? (
-            <div className="flex items-center space-x-2 text-success">
-              <Icon name="CheckCircle" size={16} />
-              <span className="text-sm font-medium">Reserve Met</span>
+            <div className="flex items-center space-x-1.5">
+              <Icon name="CheckCircle" size={14} className="text-success" />
+              <span className="text-xs font-medium text-success">Reserve Met</span>
             </div>
           ) : (
-            <div className="flex items-center space-x-2 text-warning">
-              <Icon name="AlertCircle" size={16} />
-              <span className="text-sm">Reserve: S${auction?.reservePrice?.toLocaleString()}</span>
+            <div className="flex items-center space-x-1.5">
+              <Icon name="AlertCircle" size={14} className="text-warning" />
+              <span className="text-xs text-warning">Reserve: S${auction?.reservePrice?.toLocaleString()}</span>
             </div>
           )}
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - Mobile optimized */}
         <div className="flex space-x-2">
           <Button
             variant="default"
@@ -179,36 +172,38 @@ const AuctionCard = ({ auction }) => {
             onClick={handleBidClick}
             iconName="Gavel"
             iconPosition="left"
-            className="flex-1"
+            className="flex-1 text-sm"
           >
             Bid S${calculateNextBidAmount()?.toLocaleString()}
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={handleCardClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick();
+            }}
             iconName="Eye"
             className="px-3"
-          >
-          </Button>
+          />
         </div>
 
-        {/* Additional Info */}
+        {/* Footer Info - Compact layout */}
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-          <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+          <div className="flex items-center space-x-3 text-xs text-muted-foreground">
             <div className="flex items-center space-x-1">
-              <Icon name="MapPin" size={12} />
+              <Icon name="MapPin" size={10} />
               <span>Singapore</span>
             </div>
             <div className="flex items-center space-x-1">
-              <Icon name="Eye" size={12} />
-              <span>{auction?.views || 0} views</span>
+              <Icon name="Eye" size={10} />
+              <span>{auction?.views || 0}</span>
             </div>
           </div>
           
           {auction?.shippingIncluded && (
             <div className="flex items-center space-x-1 text-xs text-success">
-              <Icon name="Truck" size={12} />
+              <Icon name="Truck" size={10} />
               <span>Free Shipping</span>
             </div>
           )}

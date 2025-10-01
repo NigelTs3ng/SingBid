@@ -88,8 +88,8 @@ const HomePage = () => {
             </Button>
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          {/* Quick Stats - Hidden on mobile */}
+          <div className="hidden sm:grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {quickStats?.map((stat, index) => (
               <div key={index} className="bg-card border border-border rounded-xl p-6 text-center hover:shadow-md transition-all duration-300">
                 <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">

@@ -107,7 +107,7 @@ const HeroSection = () => {
 
   return (
     <div className="relative bg-gradient-to-br from-red-50 via-red-25 to-pink-50 rounded-2xl overflow-hidden mb-12 singbid-shadow-lg">
-      <div className="relative h-[500px] lg:h-[600px]">
+      <div className="relative h-[500px] sm:h-[550px] lg:h-[600px]">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
@@ -120,69 +120,67 @@ const HeroSection = () => {
 
         {/* Content */}
         <div className="relative z-10 h-full flex items-center">
-          <div className="container mx-auto px-4 lg:px-6">
+          <div className="container mx-auto px-4">
             <div className="max-w-2xl text-white">
               {/* Category Badge */}
-              <div className="inline-flex items-center px-4 py-2 singbid-gradient backdrop-blur-sm rounded-full text-sm font-medium text-white mb-4 singbid-shadow">
-                <Icon name="Star" size={16} className="mr-2" />
+              <div className="inline-flex items-center px-2 py-1 sm:px-4 sm:py-2 singbid-gradient backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-white mb-2 sm:mb-4 singbid-shadow">
+                <Icon name="Star" size={12} className="mr-1.5 sm:mr-2" />
                 Featured Auction
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl lg:text-5xl font-bold mb-4 leading-tight">
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 leading-tight">
                 {currentAuction?.title}
               </h1>
 
               {/* Description */}
-              <p className="text-lg lg:text-xl text-red-100 mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base lg:text-lg text-red-100 mb-3 sm:mb-6 leading-relaxed line-clamp-2">
                 {currentAuction?.description}
               </p>
 
-              {/* Auction Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-white">
+              {/* Auction Stats - Visible on all screens */}
+              <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-6">
+                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-2.5 sm:p-4 border border-white/20">
+                  <div className="text-base sm:text-2xl lg:text-3xl font-bold text-white leading-none mb-1">
                     S${currentAuction?.currentBid?.toLocaleString()}
                   </div>
-                  <div className="text-sm text-red-200">Current Bid</div>
+                  <div className="text-[10px] sm:text-sm text-red-200">Current Bid</div>
                 </div>
 
-                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                  <div className="text-2xl lg:text-3xl font-bold text-white">
+                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-2.5 sm:p-4 border border-white/20">
+                  <div className="text-base sm:text-2xl lg:text-3xl font-bold text-white leading-none mb-1">
                     {currentAuction?.totalBids}
                   </div>
-                  <div className="text-sm text-red-200">Total Bids</div>
+                  <div className="text-[10px] sm:text-sm text-red-200">Total Bids</div>
                 </div>
 
-                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-4 col-span-2 lg:col-span-2 border border-white/20">
-                  <div className="flex items-center space-x-2 text-2xl lg:text-3xl font-bold text-white">
-                    <span>{formatTime(currentTime?.hours || 0)}h</span>
-                    <span>:</span>
-                    <span>{formatTime(currentTime?.minutes || 0)}m</span>
-                    <span>:</span>
-                    <span>{formatTime(currentTime?.seconds || 0)}s</span>
+                <div className="bg-white/15 backdrop-blur-sm rounded-lg p-2.5 sm:p-4 col-span-2 border border-white/20">
+                  <div className="flex items-center justify-center space-x-1 sm:space-x-2">
+                    <div className="text-base sm:text-2xl lg:text-3xl font-bold text-white leading-none">
+                      {formatTime(currentTime?.hours || 0)}h {formatTime(currentTime?.minutes || 0)}m {formatTime(currentTime?.seconds || 0)}s
+                    </div>
                   </div>
-                  <div className="text-sm text-red-200">Time Remaining</div>
+                  <div className="text-[10px] sm:text-sm text-red-200 text-center mt-1">Time Remaining</div>
                 </div>
               </div>
 
-              {/* Seller Info */}
-              <div className="flex items-center space-x-4 mb-8">
-                <div className="w-12 h-12 singbid-gradient rounded-full flex items-center justify-center singbid-shadow">
-                  <Icon name="User" size={20} color="white" />
+              {/* Seller Info - More compact on mobile */}
+              <div className="flex items-center space-x-2 sm:space-x-4 mb-3 sm:mb-6">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 singbid-gradient rounded-full flex items-center justify-center singbid-shadow flex-shrink-0">
+                  <Icon name="User" size={14} color="white" />
                 </div>
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-white">{currentAuction?.seller?.name}</span>
+                <div className="min-w-0">
+                  <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+                    <span className="font-semibold text-white text-xs sm:text-base truncate">{currentAuction?.seller?.name}</span>
                     {currentAuction?.seller?.verified && (
-                      <div className="flex items-center space-x-1 px-2 py-1 bg-green-500/20 rounded-full border border-green-400/30">
-                        <Icon name="Shield" size={14} className="text-green-400" />
-                        <span className="text-xs text-green-400 font-medium">Verified</span>
+                      <div className="flex items-center space-x-1 px-1.5 py-0.5 bg-green-500/20 rounded-full border border-green-400/30">
+                        <Icon name="Shield" size={10} className="text-green-400" />
+                        <span className="text-[10px] text-green-400 font-medium">Verified</span>
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center space-x-1 text-sm text-red-200">
-                    <Icon name="Star" size={14} className="text-yellow-400" />
+                  <div className="flex items-center space-x-1 text-[10px] sm:text-sm text-red-200">
+                    <Icon name="Star" size={10} className="text-yellow-400" />
                     <span>{currentAuction?.seller?.rating}</span>
                     <span>•</span>
                     <span>Singapore Seller</span>
@@ -190,15 +188,15 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+              {/* Action Buttons - More compact on mobile */}
+              <div className="flex flex-col sm:flex-row gap-2 sm:space-x-4">
                 <Button
                   variant="default"
                   size="lg"
                   onClick={() => handleBidNow(currentAuction?.id)}
                   iconName="Gavel"
                   iconPosition="left"
-                  className="singbid-gradient hover:opacity-90 text-white font-semibold px-8 py-3 singbid-shadow"
+                  className="singbid-gradient hover:opacity-90 text-white font-semibold px-4 sm:px-8 py-2 sm:py-3 singbid-shadow text-sm sm:text-base w-full sm:w-auto"
                 >
                   Place Bid Now
                 </Button>
@@ -208,7 +206,7 @@ const HeroSection = () => {
                   onClick={() => handleViewDetails(currentAuction?.id)}
                   iconName="Eye"
                   iconPosition="left"
-                  className="border-white/40 bg-white/10 text-white hover:bg-white/20 px-8 py-3 backdrop-blur-sm"
+                  className="border-white/40 bg-white/10 text-white hover:bg-white/20 px-4 sm:px-8 py-2 sm:py-3 backdrop-blur-sm text-sm sm:text-base w-full sm:w-auto"
                 >
                   View Details
                 </Button>
@@ -217,32 +215,34 @@ const HeroSection = () => {
           </div>
         </div>
 
+        {/* Navigation Arrows - Adjusted position */}
+        <div className="absolute z-20 left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-between px-2 sm:px-6">
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev - 1 + featuredAuctions?.length) % featuredAuctions?.length)}
+            className="w-8 h-8 sm:w-12 sm:h-12 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200 border border-white/20"
+          >
+            <Icon name="ChevronLeft" size={16} />
+          </button>
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev + 1) % featuredAuctions?.length)}
+            className="w-8 h-8 sm:w-12 sm:h-12 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-colors duration-200 border border-white/20"
+          >
+            <Icon name="ChevronRight" size={16} />
+          </button>
+        </div>
+
         {/* Slide Indicators */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-1.5 sm:space-x-2 z-20">
           {featuredAuctions?.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
                 index === currentSlide ? 'bg-white singbid-shadow' : 'bg-white/40'
               }`}
             />
           ))}
         </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev - 1 + featuredAuctions?.length) % featuredAuctions?.length)}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200 border border-white/20"
-        >
-          <Icon name="ChevronLeft" size={24} />
-        </button>
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % featuredAuctions?.length)}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200 border border-white/20"
-        >
-          <Icon name="ChevronRight" size={24} />
-        </button>
       </div>
     </div>
   );

@@ -1,0 +1,15 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/api/auth/route": "app/api/auth/route.js",
+  "/api/revalidate/route": "app/api/revalidate/route.js",
+  "/auction-details/page": "app/auction-details/page.js",
+  "/auction-listings/page": "app/auction-listings/page.js",
+  "/create-auction/page": "app/create-auction/page.js",
+  "/payment-dashboard/page": "app/payment-dashboard/page.js",
+  "/page": "app/page.js",
+  "/subscription-management/page": "app/subscription-management/page.js",
+  "/api/auctions/route": "app/api/auctions/route.js",
+  "/subscription-plans/page": "app/subscription-plans/page.js",
+  "/auction-details/[id]/page": "app/auction-details/[id]/page.js",
+  "/api/auctions/[id]/route": "app/api/auctions/[id]/route.js"
+}

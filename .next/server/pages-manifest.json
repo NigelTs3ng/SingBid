@@ -1,0 +1,10 @@
+{
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
+  "/home-page/components/FilterControls": "pages/home-page/components/FilterControls.js",
+  "/home-page/components/HeroSection": "pages/home-page/components/HeroSection.js",
+  "/home-page/components/ActiveAuctionsGrid": "pages/home-page/components/ActiveAuctionsGrid.js",
+  "/home-page/components/RecentlyCompletedSection": "pages/home-page/components/RecentlyCompletedSection.js",
+  "/home-page/components/TrustSignalsSection": "pages/home-page/components/TrustSignalsSection.js",
+  "/_document": "pages/_document.js"
+}

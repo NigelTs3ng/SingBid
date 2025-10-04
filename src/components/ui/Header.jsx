@@ -1,21 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import Icon from '../AppIcon';
-import Button from './Button';
-import Image from '../AppImage';
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
+import Icon from '../AppIcon'
+import Button from './Button'
+import Image from '../AppImage'
+import { ThemeToggle } from './ThemeToggle'
 
 const Header = () => {
-  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const location = useLocation();
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const dropdownRef = useRef(null)
+  const pathname = usePathname()
+  const router = useRouter()
 
   const navigationItems = [
-    { label: 'Home', path: '/home-page', icon: 'Home' },
+    { label: 'Home', path: '/', icon: 'Home' },
     { label: 'Browse Auctions', path: '/auction-listings', icon: 'Search' },
     { label: 'Create Auction', path: '/create-auction', icon: 'Plus' },
     { label: 'Plans', path: '/subscription-plans', icon: 'CreditCard' },
-  ];
+  ]
 
   const accountItems = [
     { label: 'Payment Dashboard', path: '/payment-dashboard', icon: 'CreditCard' },
@@ -23,31 +28,27 @@ const Header = () => {
     { label: 'Profile Settings', path: '/profile', icon: 'User' },
     { label: 'Help & Support', path: '/help', icon: 'HelpCircle' },
     { label: 'Sign Out', path: '/logout', icon: 'LogOut' },
-  ];
+  ]
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef?.current && !dropdownRef?.current?.contains(event?.target)) {
-        setIsAccountDropdownOpen(false);
+        setIsAccountDropdownOpen(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-    setIsAccountDropdownOpen(false);
-  }, [location?.pathname]);
-
-  const handleNavigation = (path) => {
-    window.location.href = path;
-  };
+    setIsMobileMenuOpen(false)
+    setIsAccountDropdownOpen(false)
+  }, [pathname])
 
   const isActivePath = (path) => {
-    return location?.pathname === path;
-  };
+    return pathname === path
+  }
 
   const Logo = () => (
     <div className="flex items-center space-x-3">
@@ -55,31 +56,30 @@ const Header = () => {
         <Image
           src="/assets/images/photo_2025-10-01_01-36-53-1759253847011.jpg"
           alt="SingBid Logo"
-          className="w-10 h-10 rounded-lg object-cover"
+          width={40}
+          height={40}
+          className="rounded-lg object-cover"
         />
       </div>
       <span className="text-xl font-bold text-foreground">SingBid</span>
     </div>
-  );
+  )
 
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border singbid-shadow">
         <div className="flex items-center justify-between h-16 px-4 lg:px-6">
           {/* Logo */}
-          <button 
-            onClick={() => handleNavigation('/home-page')}
-            className="flex-shrink-0 transition-transform duration-200 ease-out hover:scale-105"
-          >
+          <Link href="/" className="flex-shrink-0 transition-transform duration-200 ease-out hover:scale-105">
             <Logo />
-          </button>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navigationItems?.map((item) => (
-              <button
+              <Link
                 key={item?.path}
-                onClick={() => handleNavigation(item?.path)}
+                href={item?.path}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-out hover:bg-accent ${
                   isActivePath(item?.path)
                     ? 'bg-primary text-primary-foreground singbid-shadow'
@@ -88,12 +88,14 @@ const Header = () => {
               >
                 <Icon name={item?.icon} size={16} />
                 <span>{item?.label}</span>
-              </button>
+              </Link>
             ))}
           </nav>
 
-          {/* Desktop Account Dropdown */}
+          {/* Desktop Account Section */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
+            
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
@@ -113,16 +115,16 @@ const Header = () => {
                 <div className="absolute right-0 mt-2 w-56 bg-popover border border-border rounded-lg singbid-shadow-lg animate-fade-in">
                   <div className="py-2">
                     {accountItems?.map((item, index) => (
-                      <button
+                      <Link
                         key={item?.path}
-                        onClick={() => handleNavigation(item?.path)}
+                        href={item?.path}
                         className={`w-full flex items-center space-x-3 px-4 py-2 text-sm text-popover-foreground hover:bg-accent transition-colors duration-150 ${
                           index === accountItems?.length - 1 ? 'border-t border-border mt-1 pt-3' : ''
                         }`}
                       >
                         <Icon name={item?.icon} size={16} />
                         <span>{item?.label}</span>
-                      </button>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -131,14 +133,18 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors duration-200"
-          >
-            <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} />
-          </button>
+          <div className="flex items-center space-x-2 md:hidden">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg hover:bg-accent transition-colors duration-200"
+            >
+              <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} />
+            </button>
+          </div>
         </div>
       </header>
+
       {/* Mobile Navigation Panel */}
       {isMobileMenuOpen && (
         <>
@@ -159,9 +165,9 @@ const Header = () => {
 
             <div className="flex flex-col p-4 space-y-2">
               {navigationItems?.map((item) => (
-                <button
+                <Link
                   key={item?.path}
-                  onClick={() => handleNavigation(item?.path)}
+                  href={item?.path}
                   className={`flex items-center space-x-3 p-3 rounded-lg text-left transition-colors duration-200 ${
                     isActivePath(item?.path)
                       ? 'bg-primary text-primary-foreground singbid-shadow'
@@ -170,22 +176,22 @@ const Header = () => {
                 >
                   <Icon name={item?.icon} size={20} />
                   <span className="font-medium">{item?.label}</span>
-                </button>
+                </Link>
               ))}
 
               <div className="border-t border-border pt-4 mt-4">
                 <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-3">Account</h3>
                 {accountItems?.map((item, index) => (
-                  <button
+                  <Link
                     key={item?.path}
-                    onClick={() => handleNavigation(item?.path)}
+                    href={item?.path}
                     className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors duration-200 text-foreground hover:bg-accent ${
                       index === accountItems?.length - 1 ? 'border-t border-border mt-2 pt-3' : ''
                     }`}
                   >
                     <Icon name={item?.icon} size={20} />
                     <span>{item?.label}</span>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -195,7 +201,7 @@ const Header = () => {
       {/* Spacer for fixed header */}
       <div className="h-16" />
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
